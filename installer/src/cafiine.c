@@ -1,5 +1,5 @@
-#include "coreinit.h"
-#include "socket.h"
+#include "../../../libwiiu/src/coreinit.h"
+#include "../../../libwiiu/src/socket.h"
 
 #define assert(x) \
     do { \
@@ -28,9 +28,16 @@
   
   /* Where to install the cafiine handler. */
   #define INSTALL_ADDR ((void *)0x011dcc00)
+#elif VER == 550
+  #include "cafiine550.h"
+
+  #define socket_lib_finish ((void (*)(void))0x10c0404)
+  
+  /* Where to install the cafiine handler. */
+  #define INSTALL_ADDR ((void *)0x011dcc00)
 #endif
 
-void start() {
+void _start() {
     /* Load a good stack */
     asm(
         "lis %r1, 0x1ab5 ;"
